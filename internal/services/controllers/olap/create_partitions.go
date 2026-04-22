@@ -11,19 +11,7 @@ func (oc *OLAPControllerImpl) runOLAPTablePartition(ctx context.Context) func() 
 	return func() {
 		oc.l.Debug().Ctx(ctx).Msgf("partition: running task table partition")
 
-		// list all tenants
-		tenant, err := oc.p.GetInternalTenantForController(ctx)
-
-		if err != nil {
-			oc.l.Error().Ctx(ctx).Err(err).Msg("could not get internal tenant")
-			return
-		}
-
-		if tenant == nil {
-			return
-		}
-
-		err = oc.createTablePartition(ctx)
+		err := oc.createTablePartition(ctx)
 
 		if err != nil {
 			oc.l.Error().Ctx(ctx).Err(err).Msg("could not create table partition")
